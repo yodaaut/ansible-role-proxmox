@@ -1,3 +1,3 @@
 ---
 # defaults file for proxmox
-proxmox_release: buster
+proxmox_release: "proxmox-{% if ansible_distribution_release == 'buster' %}ve-release-6x{% else %}release-{{ ansible_distribution_release }}{% endif %}.gpg"
