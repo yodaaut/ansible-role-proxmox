@@ -42,3 +42,17 @@
   ansible.builtin.apt:
     name: ifupdown2
     state: present
+
+- name: Check if a reboot is needed for Debian and Ubuntu boxes
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+    get_checksum: no
+  register: reboot_required
+
+- name: Notify Reboot Handler if required
+  ansible.builtin.assert:
+    that: true
+    quiet: true
+  changed_when: true
+  when: reboot_required.stat.exists
+  notify: "Reboot Proxmox Host"
