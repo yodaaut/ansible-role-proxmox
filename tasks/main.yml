@@ -26,19 +26,19 @@
     upgrade: full
 
 - name: Install Proxmox VE packages
-	ansible.builtin.apt:
-		name:
-			- proxmox-ve
-			- postfix
-			- open-iscsi
-		state: present
+  ansible.builtin.apt:
+    name:
+      - proxmox-ve
+      - postfix
+      - open-iscsi
+    state: present
 
 - name: Ensure "os-prober" is uninstalled
-	ansible.builtin.apt:
-		name: os-prober
-		state: absent
+  ansible.builtin.apt:
+    name: os-prober
+    state: absent
 
 - name: Ensure "ifupdown2" is installed
-	ansible.builtin.apt:
-		name: ifupdown2
-		state: present
+  ansible.builtin.apt:
+    name: ifupdown2
+    state: present
