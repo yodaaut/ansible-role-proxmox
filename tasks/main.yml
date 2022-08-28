@@ -38,8 +38,8 @@
     regexp: '(^deb .*)'
     line: '# \1'
     path: /etc/apt/sources.list.d/pve-enterprise.list
+    backrefs: yes
     state: present
-
 
 - name: Ensure "os-prober" is uninstalled
   ansible.builtin.apt:
