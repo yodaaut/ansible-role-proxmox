@@ -16,12 +16,6 @@
     filename: pve-no-subscription
     state: present
 
-- name: Disable Proxmox pve-enterprise repo
-  ansible.builtin.apt_repository:
-    repo: "#deb https://enterprise.proxmox.com/debian/pve {{ ansible_distribution_release }} pve-enterprise"
-    filename: pve-enterprise
-    state: present
-
 - name: Only run "update_cache=yes" if the last one is more than 86400 seconds (1 day) ago
   ansible.builtin.apt:
     update_cache: yes
@@ -38,6 +32,14 @@
       - postfix
       - open-iscsi
     state: present
+
+- name: Disable Proxmox pve-enterprise repo
+  ansible.builtin.lineinfile:
+    regexp: '(^deb .*)'
+    line: '# \1'
+    path: /etc/apt/sources.list.d/pve-enterprise.list
+    state: present
+
 
 - name: Ensure "os-prober" is uninstalled
   ansible.builtin.apt:
