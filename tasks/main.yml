@@ -16,6 +16,12 @@
     filename: pve-no-subscription
     state: present
 
+- name: Disable Proxmox pve-enterprise repo
+  ansible.builtin.apt_repository:
+    repo: "#deb https://enterprise.proxmox.com/debian/pve {{ ansible_distribution_release }} pve-enterprise"
+    filename: pve-enterprise
+    state: present
+
 - name: Only run "update_cache=yes" if the last one is more than 86400 seconds (1 day) ago
   ansible.builtin.apt:
     update_cache: yes
