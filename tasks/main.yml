@@ -1,5 +1,10 @@
 ---
 # tasks file for proxmox
+- name: Only run "update_cache=yes" if the last one is more than 86400 seconds (1 day) ago
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 86400
+
 - name: Ensure gpg is installed
   ansible.builtin.apt:
     name: gpg
@@ -16,11 +21,6 @@
     filename: pve-no-subscription
     state: present
   register: repository_nosubscription
-
-- name: Only run "update_cache=yes" if the last one is more than 86400 seconds (1 day) ago
-  ansible.builtin.apt:
-    update_cache: yes
-    cache_valid_time: 86400
 
 - name: Upgrade the OS (apt full-upgrade)
   ansible.builtin.apt:
