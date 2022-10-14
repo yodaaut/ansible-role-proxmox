@@ -33,6 +33,7 @@
       - proxmox-ve
       - postfix
       - open-iscsi
+      - openvswitch-switch
     state: present
 
 - name: Disable Proxmox pve-enterprise repo
