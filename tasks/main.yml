@@ -31,6 +31,7 @@
   ansible.builtin.apt:
     name:
       - proxmox-ve
+      - ksmtuned
       - postfix
       - open-iscsi
       - openvswitch-switch
