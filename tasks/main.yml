@@ -78,7 +78,7 @@
 
 - name: Add "{{ ansible_hostname }}-local-lvm" storage
   ansible.builtin.command:
-    cmd: "pvesm add lvmthin {{ ansible_hostname }}-local-lvm -vgname {{ ansible_hostname }} -thinpool data"
+    cmd: "pvesm add lvmthin {{ ansible_hostname }}-local-lvm -vgname {{ ansible_hostname }} -thinpool data -nodes {{ ansible_hostname }}"
   when: pve_storage.rc != 0
 
 - name: Check if a reboot is needed for Debian and Ubuntu boxes
