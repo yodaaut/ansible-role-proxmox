@@ -69,16 +69,16 @@
     size: 80%FREE
     shrink: no
 
-- name: Check if "local-lvm" storage exists
+- name: Check if "{{ ansible_hostname }}-local-lvm" storage exists
   ansible.builtin.command:
-    cmd: pvesm status -storage local-lvm
+    cmd: "pvesm status -storage {{ ansible_hostname }}-local-lvm"
   failed_when: false
   changed_when: false
   register: pve_storage
 
-- name: Add "local-lvm" storage
+- name: Add "{{ ansible_hostname }}-local-lvm" storage
   ansible.builtin.command:
-    cmd: "pvesm add lvmthin local-lvm -vgname {{ ansible_hostname }} -thinpool data"
+    cmd: "pvesm add lvmthin {{ ansible_hostname }}-local-lvm -vgname {{ ansible_hostname }} -thinpool data"
   when: pve_storage.rc != 0
 
 - name: Check if a reboot is needed for Debian and Ubuntu boxes
