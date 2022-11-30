@@ -55,6 +55,32 @@
     name: ifupdown2
     state: present
 
+- name: Remove "placeholder" LV
+  community.general.lvol:
+    vg: "{{ ansible_hostname }}"
+    lv: pve_convert_to_thin
+    state: absent
+    force: yes
+
+- name: Create thin pool "data" of 80%FREE
+  community.general.lvol:
+    vg: "{{ ansible_hostname }}"
+    thinpool: data
+    size: 80%FREE
+    shrink: no
+
+- name: Check if "local-lvm" storage exists
+  ansible.builtin.command:
+    cmd: pvesm status -storage local-lvm
+  failed_when: false
+  changed_when: false
+  register: pve_storage
+
+- name: Add "local-lvm" storage
+  ansible.builtin.command:
+    cmd: "pvesm add lvmthin local-lvm -vgname {{ ansible_hostname }} -thinpool data"
+  when: pve_storage.rc != 0
+
 - name: Check if a reboot is needed for Debian and Ubuntu boxes
   ansible.builtin.stat:
     path: /var/run/reboot-required
